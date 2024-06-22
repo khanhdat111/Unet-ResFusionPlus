@@ -16,7 +16,7 @@ The U-Net ResFusion+ model has been tested on multiple datasets, including CVC-C
 
 ## Model Architecture
 
-![Model Architecture](path_to_your_model_image.png)
+![Model Architecture](model.png)
 
 ## Usage
 
