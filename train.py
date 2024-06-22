@@ -13,10 +13,18 @@ val_path = "path_your_valid_data"
 test_path = "path_your_test_data"
 
 img_height, img_width = 352, 352
+starting_filters = 34
+input_chanels = 3
+out_classes = 1
 
 X_train, Y_train = load_data(img_height, img_width, "train", train_path)
 X_val, Y_val = load_data(img_height, img_width, "validation", val_path)
 X_test, Y_test = load_data(img_height, img_width, "test", test_path)
+
+
+#Load model:
+model = create_model(img_height=img_height, img_width=img_width, input_chanels=input_chanels, out_classes=out_classes, starting_filters=starting_filters)
+model.summary()
 
 #Training
 learning_rate = 1e-4
