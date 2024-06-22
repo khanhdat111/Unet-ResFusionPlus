@@ -1,6 +1,5 @@
 import glob
 import numpy as np
-import albumentations as albu
 from tqdm import tqdm
 from PIL import Image
 from skimage.io import imread
