@@ -38,12 +38,6 @@ def load_data(img_height, img_width, data_type, dataset_path):
 
     return X, Y
 
-train_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/train/"
-val_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/validation/"
-test_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/test/"
-
-img_height, img_width = 352, 352
-
-X_train, Y_train = load_data(img_height, img_width, "train", train_path)
-X_val, Y_val = load_data(img_height, img_width, "validation", val_path)
-X_test, Y_test = load_data(img_height, img_width, "test", test_path)
+train_path = "your_path_train"
+val_path = "your_path_validation"
+test_path = "your_path_test"
