@@ -37,6 +37,6 @@ def load_data(img_height, img_width, data_type, dataset_path):
 
     return X, Y
 
-train_path = "your_path_train"
-val_path = "your_path_validation"
-test_path = "your_path_test"
+# train_path = "your_path_train"
+# val_path = "your_path_validation"
+# test_path = "your_path_test"
