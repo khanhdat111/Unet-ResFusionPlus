@@ -1,63 +1,49 @@
 import glob
-
 import numpy as np
+import albumentations as albu
+from tqdm import tqdm
 from PIL import Image
 from skimage.io import imread
-from tqdm import tqdm
 
-folder_path = ""  # Add the path to your data directory
+def load_data(img_height, img_width, data_type, dataset_path):
+    IMAGES_PATH = dataset_path + 'images/'
+    MASKS_PATH = dataset_path + 'masks/'
 
+    image_files = glob.glob(IMAGES_PATH + "*.jpg")
+    images_to_be_loaded = len(image_files)
 
-def load_data(img_height, img_width, images_to_be_loaded, dataset):
-    IMAGES_PATH = folder_path + 'images/'
-    MASKS_PATH = folder_path + 'masks/'
+    print(f'Resizing and augmenting {data_type} images and masks: {images_to_be_loaded}')
 
-    if dataset == 'kvasir':
-        train_ids = glob.glob(IMAGES_PATH + "*.jpg")
+    X = np.zeros((images_to_be_loaded, img_height, img_width, 3), dtype=np.float32)
+    Y = np.zeros((images_to_be_loaded, img_height, img_width), dtype=np.uint8)
 
-    if dataset == 'cvc-clinicdb':
-        train_ids = glob.glob(IMAGES_PATH + "*.tif")
-
-    if dataset == 'cvc-colondb' or dataset == 'etis-laribpolypdb':
-        train_ids = glob.glob(IMAGES_PATH + "*.png")
-
-    if images_to_be_loaded == -1:
-        images_to_be_loaded = len(train_ids)
-
-    X_train = np.zeros((images_to_be_loaded, img_height, img_width, 3), dtype=np.float32)
-    Y_train = np.zeros((images_to_be_loaded, img_height, img_width), dtype=np.uint8)
-
-    print('Resizing training images and masks: ' + str(images_to_be_loaded))
-    for n, id_ in tqdm(enumerate(train_ids)):
-        if n == images_to_be_loaded:
-            break
-
-        image_path = id_
-        mask_path = image_path.replace("images", "masks")
+    for n, image_path in tqdm(enumerate(image_files), total=images_to_be_loaded):
+        mask_path = image_path.replace('images', 'masks')
 
         image = imread(image_path)
-        mask_ = imread(mask_path)
-
-        mask = np.zeros((img_height, img_width), dtype=np.bool_)
-
+        mask = imread(mask_path)
+        
         pillow_image = Image.fromarray(image)
+        image_resized = np.array(pillow_image.resize((img_width, img_height))) / 255.0
 
-        pillow_image = pillow_image.resize((img_height, img_width))
-        image = np.array(pillow_image)
+        pillow_mask = Image.fromarray(mask)
+        mask_resized = np.array(pillow_mask.resize((img_height, img_width), resample=Image.LANCZOS))
 
-        X_train[n] = image / 255
+        binary_mask = (mask_resized >= 127).astype(np.uint8)
 
-        pillow_mask = Image.fromarray(mask_)
-        pillow_mask = pillow_mask.resize((img_height, img_width), resample=Image.LANCZOS)
-        mask_ = np.array(pillow_mask)
+        X[n] = image_resized
+        Y[n] = binary_mask
 
-        for i in range(img_height):
-            for j in range(img_width):
-                if mask_[i, j] >= 127:
-                    mask[i, j] = 1
+    Y = np.expand_dims(Y, axis=-1)
 
-        Y_train[n] = mask
+    return X, Y
 
-    Y_train = np.expand_dims(Y_train, axis=-1)
+train_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/train/"
+val_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/validation/"
+test_path = "/kaggle/input/image-poplyp-segmentation/Datasets/Datasets/CVC-ClinicDB/test/"
 
-    return X_train, Y_train
+img_height, img_width = 352, 352
+
+X_train, Y_train = load_data(img_height, img_width, "train", train_path)
+X_val, Y_val = load_data(img_height, img_width, "validation", val_path)
+X_test, Y_test = load_data(img_height, img_width, "test", test_path)
