@@ -1,6 +1,7 @@
 from tensorflow.keras.callbacks import EarlyStopping , ReduceLROnPlateau, ModelCheckpoint
 import gc
 from CustomLayers.DataAugmentaion import augment_images
+from ModelArchitecture.DiceLoss import dice_metric_loss
 
 learning_rate = 1e-4
 
