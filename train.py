@@ -10,7 +10,6 @@ from ImageLoader.ImageLoader2D import load_data
 #Prepare data:
 train_path = "path_your_train_data"
 val_path = "path_your_valid_data"
-test_path = "path_your_test_data"
 
 img_height, img_width = 352, 352
 starting_filters = 34
@@ -19,7 +18,6 @@ out_classes = 1
 
 X_train, Y_train = load_data(img_height, img_width, "train", train_path)
 X_val, Y_val = load_data(img_height, img_width, "validation", val_path)
-X_test, Y_test = load_data(img_height, img_width, "test", test_path)
 
 
 #Load model:
