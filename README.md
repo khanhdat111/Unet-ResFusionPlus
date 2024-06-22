@@ -30,7 +30,7 @@ The U-Net ResFusion+ model has been tested on multiple datasets, including CVC-C
 Clone the repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/yourusername/unet-resfusion.git
-cd unet-resfusion
+git clone https://github.com/khanhdat111/Unet-ResFusionPlus.git
+cd Unet-ResFusionPlus
 pip install -r requirements.txt
 
