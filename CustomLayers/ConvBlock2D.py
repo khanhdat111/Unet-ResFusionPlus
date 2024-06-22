@@ -80,12 +80,8 @@ def attention_fusion(input_tensor, filters, ratio=4):
     
     xo = Multiply()([x, attention])
 #     output_tensor = Add()([x, xo])
-    
-    output_tensor = Conv2D(filters, (3, 3), activation=None, padding='same', kernel_initializer='he_uniform', use_bias=False)(xo)
-    output_tensor = BatchNormalization(axis=-1)(output_tensor)
-    output_tensor = Activation('relu')(output_tensor)
 
-    return output_tensor
+    return xo
 
 
 def upsample_to(input_layer, target_size):
