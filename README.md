@@ -1,4 +1,5 @@
 # U-Net ResFusion+ for Polyp Segmentation
+U-Net ResFusion+ is an enhanced version of the U-Net model designed to improve the accuracy and efficiency of polyp segmentation in endoscopic images.
 
 ## Introduction
 
